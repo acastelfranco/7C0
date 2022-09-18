@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>7C0 Registration Page</title>
+		<meta charset="utf-8">
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta name="description" content="A Risiko! like board game">
+		<meta name="keywords" content="HTML, CSS, JavaScript">
+		<meta name="author" content="Antonino Castelfranco">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link id="style" rel="stylesheet" href="../css/7c0.css">
+		<script type="text/javascript" src="../scripts/message.js"></script>
+		<script type="text/javascript" src="../scripts/storage.js"></script>
+	</head>
+	<body>
+		<form>
+  			<div class="centered">
+				<table style="width: 300px">
+				    <colgroup>
+				       <col span="1" style="width: 50%; margin: 0; padding: 0; align-items: center">
+				       <col span="1" style="width: 50%; margin: 0; padding: 0; align-items: center">
+				    </colgroup>
+    				<tbody>
+						<tr>
+							<td>
+								<label for="username"><b>Username</b></label>
+							</td>
+							<td align="center">
+								<input type="text" id="username" name="username">
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label for="password"><b>Password</b></label>
+							</td>
+							<td align="center">
+								<input type="password" id="password" name="password">
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label for="name"><b>Name</b></label>
+							</td>
+							<td align="center">
+								<input type="text" id="name" name="name">
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label for="surname"><b>Surname</b></label>
+							</td>
+							<td align="center">
+								<input type="text" id="surname" name="surname">
+							</td>
+						</tr>
+						<tr>
+							<td align="center">
+								<button type="submit" formaction="javascript:cancel()">Cancel</button>
+								<script type="text/javascript">
+									function cancel() {
+										window.location.href = window.location.origin + "/7C0/index.html"
+									}
+								</script>
+							</td>
+							<td align="center">
+								<button type="submit" formaction="javascript:sendRegistrationData()">Submit</button>
+								<script type="text/javascript">
+									function sendRegistrationData()
+									{
+										const http = new XMLHttpRequest();
+										const url = window.location.origin + "/7C0/User/CreateUser"
+										
+										resetMessage("messageBox")
+										
+										var message = ""
+										
+										if (document.getElementById('username').value === "") {
+											message += "Please insert username<br>"
+										}
+										
+										if (document.getElementById('password').value === "") {
+											message += "Please insert password<br>"
+										}
+										
+										if (document.getElementById('name').value === "") {
+											message += "Please insert name<br>"
+										}
+										
+										if (document.getElementById('surname').value === "") {
+											message += "Please insert surname<br>"
+										}
+										
+										if (message != "") {
+											reportMessage("messageBox", message)
+											return
+										}
+										
+										var request = {
+											"name"     : document.getElementById('name').value,
+											"surname"  : document.getElementById('surname').value,
+											"username" : document.getElementById('username').value,
+											"password" : document.getElementById('password').value
+										}
+										
+										http.open("PUT", url);
+										http.setRequestHeader('Content-type', 'application/json');
+										http.send(JSON.stringify(request));
+					
+										http.onreadystatechange = function () {
+											if (http.readyState == 4) {
+												var response = JSON.parse(http.responseText)
+												
+												if (http.status == 200) {
+													reportMessage("messageBox", "User has been registered")
+													setTimeout(function() { window.location.href = window.location.origin + "/7C0/index.html" }, 1500)
+													
+												} else if (http.status == 500) {
+													reportMessage("messageBox", response.reason)
+												}
+											}
+										}
+									}
+								</script>
+							</td>
+						</tr>
+						<tr>
+							<td id = "messageBox" colspan="3" align="center">
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</form>
+	</body>
+</html>

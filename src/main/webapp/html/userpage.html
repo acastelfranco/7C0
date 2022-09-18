@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>7C0 User Page</title>
+		<meta charset="utf-8">
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta name="description" content="A Risiko! like board game">
+		<meta name="keywords" content="HTML, CSS, JavaScript">
+		<meta name="author" content="Antonino Castelfranco">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link id="style" rel="stylesheet" href="../css/7c0.css">
+		<script type="text/javascript" src="../scripts/message.js"></script>
+		<script type="text/javascript" src="../scripts/storage.js"></script>
+		<script type="text/javascript" src="../scripts/password.js"></script>
+	</head>
+	<body onload="javascript:load()">
+		<form>
+			<div class="centered" style="vertical-align: middle">
+				<table style="width: 400px; table-layout: fixed">
+					<tbody>
+						<tr>
+							<td style="width: 25%" align="center">
+								<label for="username"><b>Username</b></label>
+							</td>
+							<td style="width: 50%" align="center" colspan="2"><input
+								type="text" id="username" value="" autocomplete="off" readonly>
+							</td>
+							<td style="width: 25%" align="center">
+							</td>
+						</tr>
+						<tr>
+							<td style="width: 25%" align="center">
+								<label for="password"><b>Password</b></label>
+							</td>
+							<td style="width: 25%" align="center" colspan="2">
+								<input type="password" id="password" value="" autocomplete="off">
+							</td>
+							<td style="width: 25%" align="center">
+								<input type="checkbox" onclick="javascript:toggle('password')" aria-label="toggle">
+							</td>
+						</tr>
+						<tr>
+							<td style="width: 25%" align="center">
+								<label for="name"><b>Name</b></label>
+							</td>
+							<td style="width: 50%" align="center" colspan="2">
+								<input type="text" id="name" value="" autocomplete="off">
+							</td>
+							<td style="width: 25%" align="center">
+							</td>
+						</tr>
+						<tr>
+							<td style="width: 25%" align="center">
+								<label for="surname"><b>Surname</b></label>
+							</td>
+							<td style="width: 50%" align="center" colspan="2">
+								<input type="text" id="surname" value="" autocomplete="off">
+							</td>
+							<td style="width: 25%" align="center">
+							</td>
+						</tr>
+						<tr>
+							<td style="width: 100%" align="center" colspan="4">
+						</tr>
+						<tr>
+							<td style="width: 100%" align="center" colspan="4">
+						</tr>
+						<tr>
+							<td style="width: 100%" align="center" colspan="4">
+						</tr>
+						<tr>
+							<td style="width: 25%" align="center">
+								<button type="submit" formaction="javascript:logout()">&nbsp;&nbsp;&nbsp;&nbsp;Logout&nbsp;&nbsp;&nbsp;&nbsp;</button>
+								<script type="text/javascript">
+									function logout() {
+										window.sessionStorage.clear();
+										window.location.href = window.location.origin + "/7C0/index.html"
+									}
+								</script>
+							</td>
+							<td style="width: 25%" align="center">
+								<button type="submit" formaction="javascript:update()">&nbsp;&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+								<script type="text/javascript">
+									function update()
+									{
+										const http = new XMLHttpRequest();
+										const url = window.location.origin + "/7C0/User/UpdateUser"
+										
+										resetMessage("messageBox")
+										
+										var request = {
+											"name"     : document.getElementById('name').value,
+											"surname"  : document.getElementById('surname').value,
+											"username" : document.getElementById('username').value,
+											"password" : document.getElementById('password').value
+										}
+										
+										http.open("PUT", url);
+										http.setRequestHeader('Content-type', 'application/json');
+										http.send(JSON.stringify(request));
+					
+										http.onreadystatechange = function () {
+											if (http.readyState == 4) {
+												var response = JSON.parse(http.responseText)
+												
+												if (http.status == 200) {
+													reportMessage("messageBox", "Changes have been saved")
+												} else if (http.status == 500) {
+													reportMessage("messageBox", response.reason)
+												}
+											}
+										}
+									}
+								</script>
+							</td>
+							<td style="width: 25%" align="center">
+								<button type="submit" formaction="javascript:deleteUser()">&nbsp;&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;&nbsp;</button>
+								<script type="text/javascript">
+									function deleteUser()
+									{
+										const http = new XMLHttpRequest();
+										const url = window.location.origin + "/7C0/User/DeleteUser"
+										
+										resetMessage("messageBox")
+										
+										var request = {
+											"username" : document.getElementById('username').value
+										}
+										
+										http.open("PUT", url);
+										http.setRequestHeader('Content-type', 'application/json');
+										var message = JSON.stringify(request);
+										http.send(message);
+					
+										http.onreadystatechange = function () {
+											if (http.readyState == 4) {
+												
+												var response = JSON.parse(http.responseText)
+												
+												if (http.status == 200) {
+													reportMessage("messageBox", "The user has been deleted")
+													setTimeout(function() { window.location.href = window.location.origin + "/7C0/index.html" }, 1500)
+												} else if (http.status == 500) {
+													reportMessage("messageBox", response.reason)
+												}
+											}
+										}
+									}
+								</script>
+							</td>
+							<td style="width: 25%" align="center">
+								<button type="submit" formaction="">New Game</button>
+							</td>
+						</tr>
+						<tr>
+							<td id="messageBox" style="width: 100%" align="center" colspan="4">
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</form>
+		<script type="text/javascript">
+			function load() {
+				if (window.sessionStorage.lenght == 0) {
+					window.sessionStorage.clear()
+					window.location.href = window.location.origin
+							+ "/7C0/index.html"
+				}
+	
+				document.getElementById("username").value = window.sessionStorage
+						.getItem("username");
+				document.getElementById("password").value = window.sessionStorage
+						.getItem("password");
+				document.getElementById("name").value = window.sessionStorage
+						.getItem("name");
+				document.getElementById("surname").value = window.sessionStorage
+						.getItem("surname");
+			}
+		</script>
+	</body>
+</html>

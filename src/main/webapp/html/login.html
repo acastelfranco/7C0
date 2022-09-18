@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>7C0 Login Page</title>
+		<meta charset="utf-8">
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta name="description" content="A Risiko! like board game">
+		<meta name="keywords" content="HTML, CSS, JavaScript">
+		<meta name="author" content="Antonino Castelfranco">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link id="style" rel="stylesheet" href="../css/7c0.css">
+		<script type="text/javascript" src="../scripts/message.js"></script>
+		<script type="text/javascript" src="../scripts/storage.js"></script>
+	</head>
+	<body onload="javascript:resetStorage()">
+		<form autocomplete="off">
+			<div class="centered">
+				<table style="width: 100px">
+				    <colgroup>
+				       <col span="1" style="width: 50%; margin: 0; padding: 0">
+				       <col span="1" style="width: 50%; margin: 0; padding: 0">
+				    </colgroup>
+	   				<tbody>
+					<tr>
+						<td>
+							<label for="username"><b>Username</b></label>
+						</td>
+						<td align="center">
+							<input type="text" id="username" onkeydown="javascript:keyCallback(event)" autocomplete="off">
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="password"><b>Password</b></label>
+						</td>
+						<td align="center">
+							<input type="password" id="password" onkeydown="javascript:keyCallback(event)" autocomplete="off">
+						</td>
+					</tr>
+					<tr>
+						<td align="center">
+							<button type="submit" formaction="javascript:cancel()">Cancel</button>
+							<script type="text/javascript">
+								function cancel() {
+									window.location.href = window.location.origin + "/7C0/index.html"
+								}
+							</script>
+						</td>
+						<td align="center">
+							<button type="submit" formaction="javascript:readUser()">Enter</button>
+							<script type="text/javascript">
+								function keyCallback(event)
+								{
+									if (event.key === "Enter") {
+										event.preventDefault()
+										readUser()
+									}
+								}
+							
+								function readUser()
+								{
+									const http = new XMLHttpRequest();
+									const url = window.location.origin + "/7C0/User/ReadUser"
+									
+									resetMessage("messageBox")
+									
+									var request = {
+										"username" : document.getElementById('username').value
+									}
+									
+									http.open("PUT", url);
+									http.setRequestHeader('Content-type', 'application/json');
+									var message = JSON.stringify(request);
+									http.send(message);
+				
+									http.onreadystatechange = function () {
+										if (http.readyState == 4) {
+											
+											var response = JSON.parse(http.responseText)
+											
+											if (http.status == 200) {
+												if (response.username === document.getElementById('username').value
+													&& response.password === document.getElementById('password').value
+												) {
+													window.sessionStorage.setItem("username", response.username);
+		   	    									window.sessionStorage.setItem("password", response.password);
+		   	    									window.sessionStorage.setItem("name",     response.name);
+		   	    									window.sessionStorage.setItem("surname",  response.surname);
+												
+													window.location.href = window.location.origin + "/7C0/html/userpage.html"
+												}
+												else {
+													reportMessage("messageBox", "Wrong username or password")
+												}
+											} else if (http.status == 500) {
+												reportMessage("messageBox", response.reason)
+											}
+										}
+									}
+								}
+							</script>
+						</td>
+					</tr>
+					<tr>
+						<td id = "messageBox" colspan="3" align="center">
+						</td>
+					</tr>
+				</table>
+			</div>
+		</form>
+	</body>
+</html>
