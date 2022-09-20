@@ -149,7 +149,13 @@
 								</script>
 							</td>
 							<td style="width: 25%" align="center">
-								<button type="submit" formaction="">New Game</button>
+								<button type="submit" formaction="javascript:newGame()">New Game</button>
+								<script type="text/javascript">
+									function newGame()
+									{
+										window.location.href = window.location.origin + "/7C0/html/map.html"
+									}
+								</script>
 							</td>
 						</tr>
 						<tr>
