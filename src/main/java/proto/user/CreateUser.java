@@ -1,16 +1,17 @@
-package proto;
+package proto.user;
 
 import dao.User;
+import proto.Command;
 
 public class CreateUser implements Command
 {
-	private UserReceiver userReceiver;
+	private UserReceiver receiver;
 	private User         user;
 	private int          retCode;
 	
-	public CreateUser(UserReceiver userReceiver, User user)
+	public CreateUser(UserReceiver receiver, User user)
 	{
-		this.userReceiver = userReceiver;
+		this.receiver = receiver;
 		this.user = user;
 		this.retCode = 0;
 	}
@@ -18,7 +19,7 @@ public class CreateUser implements Command
 	@Override
 	public void execute()
 	{
-		retCode = userReceiver.createUser(user);
+		retCode = receiver.createEntry(user);
 	}
 
 	public int getRetCode() {

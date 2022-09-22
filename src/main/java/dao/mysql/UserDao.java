@@ -31,6 +31,8 @@ public class UserDao implements Dao<User, String> {
 				user.setPassword(resultSet.getString("password")); 
 				user.setName(resultSet.getString("name")); 
 				user.setSurname(resultSet.getString("surname"));
+				user.setGame(resultSet.getString("game"));
+				user.setColor(resultSet.getString("color"));
 			}
 		} catch (SQLException e1) {
 			return user;
@@ -66,6 +68,12 @@ public class UserDao implements Dao<User, String> {
 				+ "\""
 				+ ", \""
 				+ user.getSurname()
+				+ "\""
+				+ ", \""
+				+ user.getGame()
+				+ "\""
+				+ ", \""
+				+ user.getColor()
 				+ "\")";
 		
 		int count;

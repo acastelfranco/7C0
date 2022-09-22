@@ -1,16 +1,17 @@
-package proto;
+package proto.user;
 
 import dao.User;
+import proto.Command;
 
 public class ReadUser implements Command
 {
-	private UserReceiver userReceiver;
+	private UserReceiver receiver;
 	private String       username;
 	private User         user;
 	
-	public ReadUser(UserReceiver userReceiver, String username)
+	public ReadUser(UserReceiver receiver, String username)
 	{
-		this.userReceiver = userReceiver;
+		this.receiver = receiver;
 		this.username = username;
 		this.user = null;
 	}
@@ -18,7 +19,7 @@ public class ReadUser implements Command
 	@Override
 	public void execute()
 	{
-		user = userReceiver.readUser(username);
+		user = receiver.readEntry(username);
 	}
 
 	public User getUser() {

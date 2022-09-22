@@ -1,11 +1,4 @@
-package servlets.user;
-
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import proto.user.UserClient;
-import servlets.Utils;
+package servlet.game;
 
 import java.io.IOException;
 
@@ -13,14 +6,25 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-public class ReadUser extends HttpServlet {
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import proto.game.GameClient;
+import servlets.Utils;
+
+/**
+ * Servlet implementation class ReadGame
+ */
+public class ReadGame extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ReadUser() {
+    public ReadGame() {
         super();
+        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -40,7 +44,7 @@ public class ReadUser extends HttpServlet {
 		response.getWriter().append("<tr>");
 		response.getWriter().append("<td>");
 		response.getWriter().append("{<br>"
-				+ "&nbsp;&nbsp;&nbsp;&nbsp;\"username\"&nbsp;: \"username of the user we want to get the information\"<br>"
+				+ "&nbsp;&nbsp;&nbsp;&nbsp;\"name\"&nbsp;: \"name of the game we want to get the information\"<br>"
 				+ "}");
 		response.getWriter().append("</td>");
 		response.getWriter().append("</tr>");
@@ -49,7 +53,7 @@ public class ReadUser extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if (!request.getContentType().equals("application/json")) {
@@ -63,7 +67,7 @@ public class ReadUser extends HttpServlet {
 		try
 		{
 			json = (JSONObject) parser.parse(Utils.getBody(request));
-			UserClient.readUser(response, (String) json.get("username"));
+			GameClient.readGame(response, (String) json.get("name"));
 		}
 		
 		catch (ParseException e) {

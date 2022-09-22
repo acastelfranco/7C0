@@ -1,16 +1,17 @@
-package proto;
+package proto.user;
 
 import dao.User;
+import proto.Command;
 
 public class UpdateUser implements Command
 {
-	private UserReceiver userReceiver;
+	private UserReceiver receiver;
 	private User         user;
 	private int          retCode;
 	
-	public UpdateUser(UserReceiver userReceiver, User user)
+	public UpdateUser(UserReceiver receiver, User user)
 	{
-		this.userReceiver = userReceiver;
+		this.receiver = receiver;
 		this.user = user;
 		this.retCode = 0;
 	}
@@ -18,7 +19,7 @@ public class UpdateUser implements Command
 	@Override
 	public void execute()
 	{
-		userReceiver.updateUser(user);
+		receiver.updateEntry(user);
 	}
 
 	public int getRetCode()

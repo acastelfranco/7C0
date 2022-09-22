@@ -1,14 +1,16 @@
-package proto;
+package proto.user;
+
+import proto.Command;
 
 public class DeleteUser implements Command
 {
-	private UserReceiver userReceiver;
+	private UserReceiver receiver;
 	private String       username;
 	private int          retCode;
 	
-	public DeleteUser(UserReceiver userReceiver, String username)
+	public DeleteUser(UserReceiver receiver, String username)
 	{
-		this.userReceiver = userReceiver;
+		this.receiver = receiver;
 		this.username = username;
 		this.retCode = 0;
 	}
@@ -16,7 +18,7 @@ public class DeleteUser implements Command
 	@Override
 	public void execute()
 	{
-		retCode = userReceiver.deleteUser(username);
+		retCode = receiver.deleteEntry(username);
 	}
 
 	public int getRetCode() {

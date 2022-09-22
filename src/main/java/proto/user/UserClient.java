@@ -1,4 +1,4 @@
-package proto;
+package proto.user;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -7,6 +7,7 @@ import org.json.simple.parser.ParseException;
 
 import dao.User;
 import jakarta.servlet.http.HttpServletResponse;
+import proto.Invoker;
 import servlets.Utils;
 
 public class UserClient {
@@ -14,11 +15,11 @@ public class UserClient {
 	public static void readUser(HttpServletResponse response, String username) throws IOException, ParseException
 	{
 		PrintWriter writer = response.getWriter();
-		UserReceiver userReceiver = new UserReceiver();
-		ReadUser readUserCommand = new ReadUser(userReceiver, username);
-		Invoker invoker = new Invoker(readUserCommand);
+		UserReceiver receiver = new UserReceiver();
+		ReadUser command = new ReadUser(receiver, username);
+		Invoker invoker = new Invoker(command);
 		invoker.execute();
-		User user = readUserCommand.getUser();
+		User user = command.getUser();
 		writer.append(user.toJSON().toJSONString());
 		response.setContentType("application/json");
 		writer.flush();
@@ -27,11 +28,11 @@ public class UserClient {
 
 	public static void createUser(HttpServletResponse response, User user) throws IOException
 	{
-		UserReceiver userReceiver = new UserReceiver();
-		CreateUser createUserCommand = new CreateUser(userReceiver, user);
-		Invoker invoker = new Invoker(createUserCommand);
+		UserReceiver receiver = new UserReceiver();
+		CreateUser command = new CreateUser(receiver, user);
+		Invoker invoker = new Invoker(command);
 		invoker.execute();
-		int result = createUserCommand.getRetCode();
+		int result = command.getRetCode();
 		
 		if (result != 0) 
 		{
@@ -44,11 +45,11 @@ public class UserClient {
 	
 	public static void updateUser(HttpServletResponse response, User user) throws IOException
 	{
-		UserReceiver userReceiver = new UserReceiver();
-		UpdateUser updateUserCommand = new UpdateUser(userReceiver, user);
-		Invoker invoker = new Invoker(updateUserCommand);
+		UserReceiver receiver = new UserReceiver();
+		UpdateUser command = new UpdateUser(receiver, user);
+		Invoker invoker = new Invoker(command);
 		invoker.execute();
-		int result = updateUserCommand.getRetCode();
+		int result = command.getRetCode();
 		
 		if (result != 0) 
 		{
@@ -61,11 +62,11 @@ public class UserClient {
 	
 	public static void deleteUser(HttpServletResponse response, String username) throws IOException
 	{
-		UserReceiver userReceiver = new UserReceiver();
-		DeleteUser deleteUserCommand = new DeleteUser(userReceiver, username);
-		Invoker invoker = new Invoker(deleteUserCommand);
+		UserReceiver receiver = new UserReceiver();
+		DeleteUser command = new DeleteUser(receiver, username);
+		Invoker invoker = new Invoker(command);
 		invoker.execute();
-		int result = deleteUserCommand.getRetCode();
+		int result = command.getRetCode();
 		
 		if (result != 0) 
 		{

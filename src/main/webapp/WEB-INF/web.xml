@@ -71,4 +71,34 @@
     <servlet-name>DeleteUser</servlet-name>
     <url-pattern>/User/DeleteUser</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>PrepareBoard</display-name>
+    <servlet-name>PrepareBoard</servlet-name>
+    <servlet-class>servlet.board.PrepareBoard</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PrepareBoard</servlet-name>
+    <url-pattern>/Board/PrepareBoard</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ReadGame</display-name>
+    <servlet-name>ReadGame</servlet-name>
+    <servlet-class>servlet.game.ReadGame</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ReadGame</servlet-name>
+    <url-pattern>/Game/ReadGame</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>CreateGame</display-name>
+    <servlet-name>CreateGame</servlet-name>
+    <servlet-class>servlet.game.CreateGame</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CreateGame</servlet-name>
+    <url-pattern>/Game/CreateGame</url-pattern>
+  </servlet-mapping>
 </web-app>
