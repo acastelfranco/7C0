@@ -36,7 +36,7 @@ public class GameDao implements Dao<GameEntry, String> {
 			return entries;
 		}
 		
-		String query = "SELECT * FROM '" + viewName + "'"; 
+		String query = "SELECT * FROM " + viewName.replaceAll(" ", "_"); 
 		
 		try (ResultSet resultSet = statement.executeQuery(query)) {
 			while(resultSet.next()) {

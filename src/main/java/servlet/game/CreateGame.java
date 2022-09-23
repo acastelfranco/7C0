@@ -45,6 +45,7 @@ public class CreateGame extends HttpServlet {
 		response.getWriter().append("<td>");
 		response.getWriter().append("{<br>"
 				+ "&nbsp;&nbsp;&nbsp;&nbsp;\"name\"&nbsp;: \"name of the game we want to create\"<br>"
+				+ "&nbsp;&nbsp;&nbsp;&nbsp;\"username\"&nbsp;: \"username of the logged user\"<br>"
 				+ "}");
 		response.getWriter().append("</td>");
 		response.getWriter().append("</tr>");
@@ -67,7 +68,7 @@ public class CreateGame extends HttpServlet {
 		try
 		{
 			json = (JSONObject) parser.parse(Utils.getBody(request));
-			GameClient.createGame(response, (String) json.get("name"));
+			GameClient.createGame(response, (String) json.get("game"), (String) json.get("username"));
 		}
 		
 		catch (ParseException e) {

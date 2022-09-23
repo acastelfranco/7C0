@@ -110,6 +110,11 @@ public class UserDao implements Dao<User, String> {
 				+ "\""
 				+ user.getSurname()
 				+ "\""
+				+ ","
+				+ "game = "
+				+ "\""
+				+ user.getGame()
+				+ "\""
 				+ " "
 				+ "WHERE username = "
 				+ "\""

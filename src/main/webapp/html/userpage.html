@@ -151,9 +151,32 @@
 							<td style="width: 25%" align="center">
 								<button type="submit" formaction="javascript:newGame()">New Game</button>
 								<script type="text/javascript">
-									function newGame()
-									{
-										window.location.href = window.location.origin + "/7C0/html/map.html"
+									function newGame() {
+										const http = new XMLHttpRequest();
+										const url = window.location.origin + "/7C0/Game/CreateGame"
+										
+										resetMessage("messageBox")
+										
+										var request = {
+											"game" : "World War III",
+											"username" : document.getElementById('username').value
+										}
+										
+										http.open("PUT", url)
+										http.setRequestHeader('Content-type', 'application/json')
+										http.send(JSON.stringify(request))
+
+										http.onreadystatechange = function () {
+											if (http.readyState == 4) {
+												var response = JSON.parse(http.responseText)
+												
+												if (http.status == 200) {
+													window.location.href = window.location.origin + "/7C0/html/map.html"
+												} else if (http.status == 500) {
+													reportMessage("messageBox", response.reason)
+												}
+											}
+										}
 									}
 								</script>
 							</td>

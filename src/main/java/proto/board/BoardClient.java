@@ -28,14 +28,40 @@ public class BoardClient
 		return list;
 	}
 	
-	public static void prepareBoard(HttpServletResponse response) throws IOException, ParseException
+	public static List<BoardEntry> readBoard()
 	{
-		PrintWriter writer = response.getWriter();
 		BoardReceiver receiver = new BoardReceiver();
 		PrepareBoard command = new PrepareBoard(receiver);
 		Invoker invoker = new Invoker(command);
 		invoker.execute();
-		List<BoardEntry> entries = command.getBoard();
+		return command.getBoard();
+	}
+	
+	public static void readBoard(HttpServletResponse response) throws IOException, ParseException
+	{
+		PrintWriter writer = response.getWriter();
+		List<BoardEntry> entries = readBoard();
+		
+		writer.append("[");
+		
+		for (int i = 0; i < entries.size(); i++) {
+			writer.append(entries.get(i).toJSON().toJSONString());
+			
+			if (i < entries.size() - 1)
+				writer.append(",");
+		}
+		
+		writer.append("]");
+		
+		response.setContentType("application/json");
+		writer.flush();
+		writer.close();
+	}
+	
+	public static void prepareBoard(HttpServletResponse response) throws IOException, ParseException
+	{
+		PrintWriter writer = response.getWriter();
+		List<BoardEntry> entries = readBoard();
 		
 		List<Integer> indexes = generateRandomIndexes(entries.size());
 		

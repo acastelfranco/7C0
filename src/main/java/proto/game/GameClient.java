@@ -13,14 +13,19 @@ import servlets.Utils;
 
 public class GameClient
 {
-	public static void readGame(HttpServletResponse response, String gameName) throws IOException, ParseException
+	public static List<GameEntry> readGame(String gameName, String username)
 	{
-		PrintWriter writer = response.getWriter();
-		GameReceiver receiver = new GameReceiver(gameName);
+		GameReceiver receiver = new GameReceiver(gameName, username);
 		ReadGame command = new ReadGame(receiver);
 		Invoker invoker = new Invoker(command);
 		invoker.execute();
-		List<GameEntry> entries = command.getGame();
+		return command.getGame();
+	}
+	
+	public static void readGame(HttpServletResponse response, String gameName, String username) throws IOException, ParseException
+	{
+		PrintWriter writer = response.getWriter();
+		List<GameEntry> entries = readGame(gameName, username);
 		
 		writer.append("[");
 		
@@ -37,15 +42,19 @@ public class GameClient
 		writer.flush();
 		writer.close();
 	}
-
-	public static void createGame(HttpServletResponse response, String gameName) throws IOException
+	
+	public static int createGame(String gameName, String username)
 	{
-		GameReceiver receiver = new GameReceiver(gameName);
+		GameReceiver receiver = new GameReceiver(gameName, username);
 		CreateGame command = new CreateGame(receiver);
 		Invoker invoker = new Invoker(command);
 		invoker.execute();
-		
-		int result = command.getRetCode();
+		return command.getRetCode();
+	}
+
+	public static void createGame(HttpServletResponse response, String gameName, String username) throws IOException
+	{
+		int result = createGame(gameName, username);
 		
 		if (result != 0) 
 		{
