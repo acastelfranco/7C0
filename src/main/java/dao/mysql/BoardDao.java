@@ -51,14 +51,52 @@ public class BoardDao implements Dao<BoardEntry, String> {
 	/**
 	 * We do not create any new entry in this table
 	 */
-	public int save(BoardEntry t) {
+	public int save(BoardEntry entry) {
+		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int update(BoardEntry t) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int update(BoardEntry entry) {
+		
+		Statement statement;
+		
+		try {
+			statement = Init.connection.createStatement();
+		} catch (SQLException e1) {
+			return -1;
+		}
+		
+		String query = "UPDATE Board SET "
+				+ "country_name = "
+				+ "\""
+				+ entry.getCountryName()
+				+ "\""
+				+ ", "
+				+ "tanks = "
+				+ "\""
+				+ entry.getTanks()
+				+ "\""
+				+ ", "
+				+ "username = "
+				+ "\""
+				+ entry.getUsername()
+				+ "\""
+				+ " "
+				+ "WHERE country_id = "
+				+ "\""
+				+ entry.getCountryId()
+				+ "\"";
+		
+		int count;
+		
+		try {
+			count = statement.executeUpdate(query);
+		} catch (SQLException e) {
+			return -1;
+		}
+		
+		return (count == 1) ? 0 : -1;
 	}
 
 	/**
@@ -66,6 +104,7 @@ public class BoardDao implements Dao<BoardEntry, String> {
 	 */
 	@Override
 	public int delete(String key) {
+		// TODO Auto-generated method stub
 		return 0;
 	}
 

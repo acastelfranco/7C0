@@ -14,6 +14,7 @@ import dao.GameEntry;
 import jakarta.servlet.http.HttpServletResponse;
 import proto.Invoker;
 import proto.game.GameClient;
+import servlets.Utils;
 
 public class BoardClient
 {
@@ -29,6 +30,21 @@ public class BoardClient
 		}
 		
 		return list;
+	}
+	
+	public static int updateBoard(List<BoardEntry> board)
+	{
+		BoardReceiver receiver = new BoardReceiver();
+		
+		for (BoardEntry entry : board) {
+			UpdateBoardEntry command = new UpdateBoardEntry(receiver, entry);
+			Invoker invoker = new Invoker(command);
+			invoker.execute();
+			int retCode = command.getRetCode();
+			if (retCode != 0) return retCode;
+		}
+		
+		return 0;
 	}
 	
 	public static List<BoardEntry> readBoard()
@@ -88,19 +104,30 @@ public class BoardClient
 	{
 		PrintWriter writer = response.getWriter();
 		List<BoardEntry> entries = prepareBoard(gameName, username);
+
+		int result = updateBoard(entries);
 		
-		writer.append("[");
-		
-		for (int i = 0; i < entries.size(); i++) {
-			writer.append(entries.get(i).toJSON().toJSONString());
+		if (result == 0) {
+			writer.append("{");
+			writer.append("\"board\" : ");
+			writer.append("[");
 			
-			if (i < entries.size() - 1)
-				writer.append(",");
+			for (int i = 0; i < entries.size(); i++) {
+				writer.append(entries.get(i).toJSON().toJSONString());
+				
+				if (i < entries.size() - 1)
+					writer.append(",");
+			}
+			
+			writer.append("]");
+			writer.append("}");
+
+			response.setContentType("application/json");
+		} else {
+			Utils.reportError(response, 500, "Unable to update the game board");
+			return;
 		}
 		
-		writer.append("]");
-		
-		response.setContentType("application/json");
 		writer.flush();
 		writer.close();
 	}

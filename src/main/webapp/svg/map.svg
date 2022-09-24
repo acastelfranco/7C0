@@ -93,15 +93,13 @@
 		
 			http.onreadystatechange = function() {
 				if (http.readyState == 4) {
-					var response = JSON.parse(http.responseText)
-		
 					if (http.status == 200) {
-						var board = JSON.parse(http.responseText)
-						var len = Object.keys(board).length
+						var response = JSON.parse(http.responseText)
+						var len = Object.keys(response.board).length
 						
 						for(var i = 0; i < len; i++) {
-							turnOnTank(document, board[i].countryId + "_1")
-							setTankColor(document, board[i].countryId + "_1", board[i].color)
+							turnOnTank(document, response.board[i].countryId + "_1")
+							setTankColor(document, response.board[i].countryId + "_1", response.board[i].color)
 						}
 					} else if (http.status == 500) {
 						console.log("error preparing board")
