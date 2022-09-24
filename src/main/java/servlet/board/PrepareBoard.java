@@ -2,6 +2,8 @@ package servlet.board;
 
 import java.io.IOException;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import jakarta.servlet.ServletException;
@@ -41,7 +43,8 @@ public class PrepareBoard extends HttpServlet {
 		response.getWriter().append("<tr>");
 		response.getWriter().append("<td>");
 		response.getWriter().append("{<br>"
-				+ "Just use the url with no parameters"
+				+ "&nbsp;&nbsp;&nbsp;&nbsp;\"game\"&nbsp;: \"name of the game we want to create\"<br>"
+				+ "&nbsp;&nbsp;&nbsp;&nbsp;\"username\"&nbsp;: \"username of the logged user\"<br>"
 				+ "}");
 		response.getWriter().append("</td>");
 		response.getWriter().append("</tr>");
@@ -53,9 +56,18 @@ public class PrepareBoard extends HttpServlet {
 	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
 	 */
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		if (!request.getContentType().equals("application/json")) {
+			Utils.reportError(response, 400, "bad request");
+			return;
+		}
+		
+		JSONParser parser = new JSONParser();
+		JSONObject json = null;
+		
 		try
 		{
-			BoardClient.prepareBoard(response);
+			json = (JSONObject) parser.parse(Utils.getBody(request));
+			BoardClient.prepareBoard(response, (String) json.get("game"), (String) json.get("username"));
 		}
 		
 		catch (ParseException e) {

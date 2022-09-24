@@ -44,7 +44,7 @@ public class CreateGame extends HttpServlet {
 		response.getWriter().append("<tr>");
 		response.getWriter().append("<td>");
 		response.getWriter().append("{<br>"
-				+ "&nbsp;&nbsp;&nbsp;&nbsp;\"name\"&nbsp;: \"name of the game we want to create\"<br>"
+				+ "&nbsp;&nbsp;&nbsp;&nbsp;\"game\"&nbsp;: \"name of the game we want to create\"<br>"
 				+ "&nbsp;&nbsp;&nbsp;&nbsp;\"username\"&nbsp;: \"username of the logged user\"<br>"
 				+ "}");
 		response.getWriter().append("</td>");

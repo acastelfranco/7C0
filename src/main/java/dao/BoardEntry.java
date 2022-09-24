@@ -21,6 +21,7 @@ public class BoardEntry  implements Serializable, Entry
 	private String countryName;
 	private int tanks;
 	private String username;
+	private String color;
 
 	public String getCountryId() {
 		return countryId;
@@ -60,6 +61,14 @@ public class BoardEntry  implements Serializable, Entry
 		tanks     = Integer.parseInt((String) json.get("tanks"));
 		username  = (String) json.get("username");
 	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
 	
 	public JSONObject toJSON() throws ParseException {
 		JSONParser parser = new JSONParser();
@@ -69,6 +78,7 @@ public class BoardEntry  implements Serializable, Entry
 		    	 + "	\"countryName\": \"" + countryName + "\",\r\n"
 		    	 + "	\"tanks\": \""     + tanks     + "\",\r\n"
 		    	 + "	\"username\": \""  + username  + "\"\r\n"
+		    	 + "	\"color\": \""  + color  + "\"\r\n"
 		    	 + "}");
 		
 		return json;

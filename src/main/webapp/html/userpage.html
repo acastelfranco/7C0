@@ -171,6 +171,9 @@
 												var response = JSON.parse(http.responseText)
 												
 												if (http.status == 200) {
+													window.sessionStorage.clear()
+													window.sessionStorage.setItem("username", request.username);
+		   	    									window.sessionStorage.setItem("game",  request.game);
 													window.location.href = window.location.origin + "/7C0/html/map.html"
 												} else if (http.status == 500) {
 													reportMessage("messageBox", response.reason)
