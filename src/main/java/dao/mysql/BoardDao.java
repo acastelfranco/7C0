@@ -13,9 +13,30 @@ import servlets.Init;
 public class BoardDao implements Dao<BoardEntry, String> {
 
 	@Override
-	public BoardEntry get(String key) {
-		// TODO Auto-generated method stub
-		return null;
+	public BoardEntry get(String countryId) {
+		Statement statement;
+		BoardEntry entry = new BoardEntry(); 
+		
+		try {
+			statement = Init.connection.createStatement();
+		} catch (SQLException e1) {
+			return entry;
+		}
+		
+		String query = "SELECT * FROM Board WHERE country_id ='" + countryId + "'"; 
+		
+		try (ResultSet resultSet = statement.executeQuery(query)) {
+			if(resultSet.next()) {
+				entry.setCountryId(resultSet.getString("country_id"));
+				entry.setCountryName(resultSet.getString("country_name"));
+				entry.setTanks(resultSet.getInt("tanks"));
+				entry.setUsername(resultSet.getString("username"));
+			}
+		} catch (SQLException e1) {
+			return entry;
+		}
+		
+		return entry;
 	}
 
 	@Override

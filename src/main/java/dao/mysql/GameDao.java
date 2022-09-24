@@ -6,6 +6,7 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.Vector;
 
+import dao.BoardEntry;
 import dao.Dao;
 import dao.GameEntry;
 import servlets.Init;
@@ -20,9 +21,28 @@ public class GameDao implements Dao<GameEntry, String> {
 	}
 
 	@Override
-	public GameEntry get(String key) {
-		// TODO Auto-generated method stub
-		return null;
+	public GameEntry get(String username) {
+		Statement statement;
+		GameEntry entry = new GameEntry(); 
+		
+		try {
+			statement = Init.connection.createStatement();
+		} catch (SQLException e1) {
+			return entry;
+		}
+		
+		String query = "SELECT * FROM " + viewName.replaceAll(" ", "_") + " WHERE username = '" + username + "'"; 
+		
+		try (ResultSet resultSet = statement.executeQuery(query)) {
+			if(resultSet.next()) {
+				entry.setUsername(resultSet.getString("username"));
+				entry.setColor(resultSet.getString("color"));
+			}
+		} catch (SQLException e1) {
+			return entry;
+		}
+		
+		return entry;
 	}
 
 	@Override

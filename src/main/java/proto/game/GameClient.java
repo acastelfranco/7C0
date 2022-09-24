@@ -13,12 +13,23 @@ import servlets.Utils;
 
 public class GameClient
 {
+	public static GameEntry readGameEntry(String gameName, String username)
+	{
+		GameReceiver receiver = new GameReceiver(gameName, username);
+		ReadGameEntry command = new ReadGameEntry(receiver, username);
+		Invoker invoker = new Invoker(command);
+		invoker.execute();
+		
+		return command.getEntry();
+	}
+	
 	public static List<GameEntry> readGame(String gameName, String username)
 	{
 		GameReceiver receiver = new GameReceiver(gameName, username);
 		ReadGame command = new ReadGame(receiver);
 		Invoker invoker = new Invoker(command);
 		invoker.execute();
+		
 		return command.getGame();
 	}
 	

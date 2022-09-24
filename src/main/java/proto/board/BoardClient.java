@@ -14,6 +14,7 @@ import dao.GameEntry;
 import jakarta.servlet.http.HttpServletResponse;
 import proto.Invoker;
 import proto.game.GameClient;
+import proto.game.ReadGame;
 import servlets.Utils;
 
 public class BoardClient
@@ -32,15 +33,93 @@ public class BoardClient
 		return list;
 	}
 	
-	public static int updateBoard(List<BoardEntry> board)
+	public static BoardEntry readBoardEntry(String countryId)
 	{
 		BoardReceiver receiver = new BoardReceiver();
+		ReadBoardEntry read = new ReadBoardEntry(receiver, countryId);
+		Invoker invoker = new Invoker(read);
+		invoker.execute();
+		return read.getEntry();
+	}
+
+	public static void readBoardEntry(HttpServletResponse response, String username) throws IOException, ParseException
+	{
+		PrintWriter writer = response.getWriter();
+		BoardEntry entry = readBoardEntry(username);
+		writer.append(entry.toJSON().toJSONString());
+		response.setContentType("application/json");
+		writer.flush();
+		writer.close();
+	}
+	
+	public static int updateBoardEntry(BoardEntry entry)
+	{
+		BoardReceiver receiver = new BoardReceiver();
+		UpdateBoardEntry command = new UpdateBoardEntry(receiver, entry);
+		Invoker invoker = new Invoker(command);
+		invoker.execute();
 		
+		return command.getRetCode();
+	}
+	
+	private static void reportTanksAndColor(HttpServletResponse response, int tanks, String color) throws IOException
+	{
+		PrintWriter writer = response.getWriter();
+		response.setContentType("application/json");
+		writer.append("{");
+		writer.append(" ");
+		writer.append("\"tanks\" : \"" + tanks + "\"");
+		writer.append(",");
+		writer.append(" ");
+		writer.append("\"color\" : \"" + color + "\"");
+		writer.append(" ");
+		writer.append("}");
+		writer.flush();
+		writer.close();
+	}
+	
+	public static void updateBoardEntry(HttpServletResponse response, String countryId, String username, String game) throws IOException
+	{
+		BoardEntry boardEntry = readBoardEntry(countryId);
+		
+		if (boardEntry == null) {
+			Utils.reportError(response, 500, "Unable to read the board entry for the country id: " + countryId);
+			return;
+		}
+		
+		GameEntry gameEntry = GameClient.readGameEntry(game, boardEntry.getUsername());
+		if (gameEntry.getUsername() == null || gameEntry.getColor() == null) {
+			Utils.reportError(response, 500, "Unable to read the game entry for the user: " + username);
+			return;
+		}
+		
+		int tanks = boardEntry.getTanks() + 1;
+		
+		/* TODO: for now we are limiting the number of tanks per country to 5. In the final version it will be 130 */
+		if (tanks > 5) {
+			reportTanksAndColor(response, 5, gameEntry.getColor());
+			return;
+		}
+		
+		/* TODO: For now we do not touch the username. We will update it when we will get to the attacking and defending phases */
+		boardEntry.setUsername(boardEntry.getUsername());
+		boardEntry.setTanks(tanks);
+		
+		int result = updateBoardEntry(boardEntry);
+		
+		if (result != 0) 
+		{
+			Utils.reportError(response, 500, "Unable to update the country: " + boardEntry.getCountryName());
+			return;
+		}
+		
+		reportTanksAndColor(response, tanks, gameEntry.getColor());
+	}
+	
+	public static int updateBoard(List<BoardEntry> board)
+	{
 		for (BoardEntry entry : board) {
-			UpdateBoardEntry command = new UpdateBoardEntry(receiver, entry);
-			Invoker invoker = new Invoker(command);
-			invoker.execute();
-			int retCode = command.getRetCode();
+			int retCode = updateBoardEntry(entry);
 			if (retCode != 0) return retCode;
 		}
 		

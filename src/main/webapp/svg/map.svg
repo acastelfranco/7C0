@@ -75,7 +75,32 @@
 			var territory = evt.target
 			var countryId = territory.getAttribute('id')
 			var document = territory.ownerDocument;
-			turnOnTank(document, countryId);
+			
+			var request = {
+				"countryId" : countryId,
+				"username" : window.sessionStorage.getItem("username"),
+				"game" : window.sessionStorage.getItem("game")
+			}
+			
+			const http = new XMLHttpRequest()
+			const url = window.location.origin + "/7C0/Board/UpdateBoardEntry"
+			
+			http.open("PUT", url)
+			http.setRequestHeader('Content-type', 'application/json')
+			http.send(JSON.stringify(request))
+		
+			http.onreadystatechange = function() {
+				if (http.readyState == 4) {
+					if (http.status == 200) {
+						var response = JSON.parse(http.responseText)
+						
+						turnOnTank(document, countryId + "_" + response.tanks)
+						setTankColor(document, countryId + "_" + response.tanks, response.color)
+					} else if (http.status == 500) {
+						console.log("error updating the entry")
+					}
+				}
+			}
 		}
 		
 		function prepareBoard(document) {
@@ -1647,7 +1672,7 @@
        style="fill:#ffffff"
        inkscape:label="ucraina_3"><rect
          style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.1;stroke-dasharray:none;stroke-opacity:1"
-         id="ucrain_3_rect"
+         id="ucraina_3_rect"
          width="12.219228"
          height="5.6360459"
          x="165.59128"
@@ -3096,7 +3121,7 @@
          rx="0" /><path
          style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.1;stroke-dasharray:none;stroke-opacity:1"
          d="m 168.49824,860.82187 h 3.45612 v 0.66147 h 4.67982 v 0.47956 h 3.24114 v 0.61185 h -3.21634 v 0.62838 h -4.70462 v 0.53744 h -3.45612 z"
-         id="australia_orientale_2" /></g><g
+         id="australia_orientale_2_path" /></g><g
        id="australia_orientale_1"
        transform="matrix(0.05580661,-1.8971159,1.8971159,0.05580661,-563.82391,1037.703)"
        style="fill:#ffffff"
@@ -3522,7 +3547,7 @@
        style="fill:#ffffff"
        inkscape:label="egitto_5"><rect
          style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.1;stroke-dasharray:none;stroke-opacity:1"
-         id="egitto_5_rec"
+         id="egitto_5_rect"
          width="12.219228"
          height="5.6360459"
          x="165.59128"

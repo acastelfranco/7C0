@@ -101,4 +101,14 @@
     <servlet-name>CreateGame</servlet-name>
     <url-pattern>/Game/CreateGame</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UpdateBoardEntry</display-name>
+    <servlet-name>UpdateBoardEntry</servlet-name>
+    <servlet-class>servlet.board.UpdateBoardEntry</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UpdateBoardEntry</servlet-name>
+    <url-pattern>/Board/UpdateBoardEntry</url-pattern>
+  </servlet-mapping>
 </web-app>
