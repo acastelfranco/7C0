@@ -1,9 +1,9 @@
-package proto.board;
+package command.board;
 
 import java.util.List;
 
+import command.Command;
 import dao.BoardEntry;
-import proto.Command;
 
 public class PrepareBoard implements Command
 {

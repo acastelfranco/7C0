@@ -1,15 +1,15 @@
-package proto.user;
+package command.user;
 
-import dao.User;
-import proto.Command;
+import command.Command;
+import dao.UserEntry;
 
 public class UpdateUser implements Command
 {
 	private UserReceiver receiver;
-	private User         user;
+	private UserEntry         user;
 	private int          retCode;
 	
-	public UpdateUser(UserReceiver receiver, User user)
+	public UpdateUser(UserReceiver receiver, UserEntry user)
 	{
 		this.receiver = receiver;
 		this.user = user;

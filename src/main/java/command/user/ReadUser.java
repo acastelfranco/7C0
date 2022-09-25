@@ -1,13 +1,13 @@
-package proto.user;
+package command.user;
 
-import dao.User;
-import proto.Command;
+import command.Command;
+import dao.UserEntry;
 
 public class ReadUser implements Command
 {
 	private UserReceiver receiver;
 	private String       username;
-	private User         user;
+	private UserEntry         user;
 	
 	public ReadUser(UserReceiver receiver, String username)
 	{
@@ -22,7 +22,7 @@ public class ReadUser implements Command
 		user = receiver.readEntry(username);
 	}
 
-	public User getUser() {
+	public UserEntry getUser() {
 		return user;
 	}
 }

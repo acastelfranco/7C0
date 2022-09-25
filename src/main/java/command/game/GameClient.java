@@ -1,4 +1,4 @@
-package proto.game;
+package command.game;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -6,9 +6,9 @@ import java.util.List;
 
 import org.json.simple.parser.ParseException;
 
+import command.Invoker;
 import dao.GameEntry;
 import jakarta.servlet.http.HttpServletResponse;
-import proto.Invoker;
 import servlet.Utils;
 
 public class GameClient

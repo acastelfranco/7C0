@@ -1,4 +1,4 @@
-package proto.board;
+package command.board;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -9,12 +9,12 @@ import java.util.Vector;
 
 import org.json.simple.parser.ParseException;
 
+import command.Invoker;
+import command.game.GameClient;
+import command.game.ReadGame;
 import dao.BoardEntry;
 import dao.GameEntry;
 import jakarta.servlet.http.HttpServletResponse;
-import proto.Invoker;
-import proto.game.GameClient;
-import proto.game.ReadGame;
 import servlet.Utils;
 
 public class BoardClient

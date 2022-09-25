@@ -1,12 +1,12 @@
-package proto.game;
+package command.game;
 
 import java.util.List;
 
+import command.Command;
+import command.Invoker;
+import command.user.UserClient;
 import dao.GameEntry;
-import dao.User;
-import proto.Command;
-import proto.Invoker;
-import proto.user.UserClient;
+import dao.UserEntry;
 
 public class CreateGame implements Command
 {
@@ -32,10 +32,10 @@ public class CreateGame implements Command
 
 	private int setupPlayers(String game, String human)
 	{
-		User bot1 = UserClient.readUser("bot1");
-		User bot2 = UserClient.readUser("bot2");
-		User bot3 = UserClient.readUser("bot3");
-		User humanPlayer = UserClient.readUser(human);
+		UserEntry bot1 = UserClient.readUser("bot1");
+		UserEntry bot2 = UserClient.readUser("bot2");
+		UserEntry bot3 = UserClient.readUser("bot3");
+		UserEntry humanPlayer = UserClient.readUser(human);
 		
 		bot1.setGame(game);
 		bot2.setGame(game);

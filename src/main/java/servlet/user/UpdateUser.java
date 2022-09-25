@@ -4,7 +4,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import proto.user.UserClient;
 import servlet.Utils;
 
 import java.io.IOException;
@@ -13,7 +12,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import dao.User;
+import command.user.UserClient;
+import dao.UserEntry;
 
 public class UpdateUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -68,7 +68,7 @@ public class UpdateUser extends HttpServlet {
 		try
 		{
 			json = (JSONObject) parser.parse(Utils.getBody(request));
-			User existingUser = new User();
+			UserEntry existingUser = new UserEntry();
 			existingUser.fromJSON(json);
 			UserClient.updateUser(response, existingUser);
 		}

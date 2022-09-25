@@ -1,8 +1,8 @@
-package proto.board;
+package command.board;
 
+import command.BaseReceiver;
 import dao.BoardEntry;
 import dao.mysql.BoardDao;
-import proto.BaseReceiver;
 
 public class BoardReceiver extends BaseReceiver<BoardEntry, String>
 {

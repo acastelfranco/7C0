@@ -18,14 +18,14 @@
   </welcome-file-list>
   <listener>
     <listener-class>
-		servlets.Init
+		servlet.Init
     </listener-class>
   </listener>
   <servlet>
     <description></description>
     <display-name>UserService</display-name>
     <servlet-name>UserService</servlet-name>
-    <servlet-class>servlets.UserService</servlet-class>
+    <servlet-class>servlet.UserService</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>UserService</servlet-name>
@@ -35,7 +35,7 @@
     <description></description>
     <display-name>ReadUser</display-name>
     <servlet-name>ReadUser</servlet-name>
-    <servlet-class>servlets.user.ReadUser</servlet-class>
+    <servlet-class>servlet.user.ReadUser</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>ReadUser</servlet-name>
@@ -45,7 +45,7 @@
     <description></description>
     <display-name>CreateUser</display-name>
     <servlet-name>CreateUser</servlet-name>
-    <servlet-class>servlets.user.CreateUser</servlet-class>
+    <servlet-class>servlet.user.CreateUser</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>CreateUser</servlet-name>
@@ -55,7 +55,7 @@
     <description></description>
     <display-name>UpdateUser</display-name>
     <servlet-name>UpdateUser</servlet-name>
-    <servlet-class>servlets.user.UpdateUser</servlet-class>
+    <servlet-class>servlet.user.UpdateUser</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>UpdateUser</servlet-name>
@@ -65,7 +65,7 @@
     <description></description>
     <display-name>DeleteUser</display-name>
     <servlet-name>DeleteUser</servlet-name>
-    <servlet-class>servlets.user.DeleteUser</servlet-class>
+    <servlet-class>servlet.user.DeleteUser</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>DeleteUser</servlet-name>

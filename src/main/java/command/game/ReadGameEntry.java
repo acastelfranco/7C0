@@ -1,7 +1,7 @@
-package proto.game;
+package command.game;
 
+import command.Command;
 import dao.GameEntry;
-import proto.Command;
 
 public class ReadGameEntry implements Command {
 	private GameReceiver receiver;

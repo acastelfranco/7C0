@@ -1,8 +1,8 @@
-package proto.game;
+package command.game;
 
+import command.BaseReceiver;
 import dao.GameEntry;
 import dao.mysql.GameDao;
-import proto.BaseReceiver;
 
 public class GameReceiver extends BaseReceiver<GameEntry, String>
 {

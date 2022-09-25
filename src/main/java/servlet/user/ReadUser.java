@@ -4,7 +4,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import proto.user.UserClient;
 import servlet.Utils;
 
 import java.io.IOException;
@@ -12,6 +11,8 @@ import java.io.IOException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
+import command.user.UserClient;
 
 public class ReadUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;

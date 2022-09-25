@@ -6,16 +6,16 @@ import java.sql.Statement;
 import java.util.List;
 
 import dao.Dao;
-import dao.User;
+import dao.UserEntry;
 import servlet.Init;
 
-public class UserDao implements Dao<User, String> {
+public class UserDao implements Dao<UserEntry, String> {
 
 	@Override
-	public User get(String username) {
+	public UserEntry get(String username) {
 
 		Statement statement;
-		User user = new User(); 
+		UserEntry user = new UserEntry(); 
 		
 		try {
 			statement = Init.connection.createStatement();
@@ -42,12 +42,12 @@ public class UserDao implements Dao<User, String> {
 	}
 
 	@Override
-	public List<User> getAll() {
+	public List<UserEntry> getAll() {
 		return null;
 	}
 
 	@Override
-	public int save(User user) {
+	public int save(UserEntry user) {
 		Statement statement;
 		
 		try {
@@ -89,7 +89,7 @@ public class UserDao implements Dao<User, String> {
 	}
 
 	@Override
-	public int update(User user) {
+	public int update(UserEntry user) {
 
 		Statement statement;
 		

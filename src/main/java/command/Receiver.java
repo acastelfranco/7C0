@@ -1,4 +1,4 @@
-package proto;
+package command;
 
 import java.util.List;
 

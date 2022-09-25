@@ -1,6 +1,6 @@
-package proto.user;
+package command.user;
 
-import proto.Command;
+import command.Command;
 
 public class DeleteUser implements Command
 {

@@ -1,18 +1,18 @@
-package proto.user;
+package command.user;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 
 import org.json.simple.parser.ParseException;
 
-import dao.User;
+import command.Invoker;
+import dao.UserEntry;
 import jakarta.servlet.http.HttpServletResponse;
-import proto.Invoker;
 import servlet.Utils;
 
 public class UserClient {
 	
-	public static User readUser(String username)
+	public static UserEntry readUser(String username)
 	{
 		UserReceiver userReceiver = new UserReceiver();
 		ReadUser read = new ReadUser(userReceiver, username);
@@ -24,14 +24,14 @@ public class UserClient {
 	public static void readUser(HttpServletResponse response, String username) throws IOException, ParseException
 	{
 		PrintWriter writer = response.getWriter();
-		User user = readUser(username);
+		UserEntry user = readUser(username);
 		writer.append(user.toJSON().toJSONString());
 		response.setContentType("application/json");
 		writer.flush();
 		writer.close();
 	}
 	
-	public static int createUser(User user)
+	public static int createUser(UserEntry user)
 	{
 		UserReceiver receiver = new UserReceiver();
 		CreateUser command = new CreateUser(receiver, user);
@@ -40,7 +40,7 @@ public class UserClient {
 		return command.getRetCode();
 	}
 
-	public static void createUser(HttpServletResponse response, User user) throws IOException
+	public static void createUser(HttpServletResponse response, UserEntry user) throws IOException
 	{
 		int result = createUser(user);
 		
@@ -53,7 +53,7 @@ public class UserClient {
 		Utils.reportSuccess(response, 200);
 	}
 	
-	public static int updateUser(User user)
+	public static int updateUser(UserEntry user)
 	{
 		UserReceiver receiver = new UserReceiver();
 		UpdateUser command = new UpdateUser(receiver, user);
@@ -63,7 +63,7 @@ public class UserClient {
 		return command.getRetCode();
 	}
 	
-	public static void updateUser(HttpServletResponse response, User user) throws IOException
+	public static void updateUser(HttpServletResponse response, UserEntry user) throws IOException
 	{
 		int result = updateUser(user);
 		

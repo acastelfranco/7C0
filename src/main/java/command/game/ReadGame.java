@@ -1,9 +1,9 @@
-package proto.game;
+package command.game;
 
 import java.util.List;
 
+import command.Command;
 import dao.GameEntry;
-import proto.Command;
 
 public class ReadGame implements Command {
 	

@@ -1,7 +1,7 @@
-package proto.board;
+package command.board;
 
+import command.Command;
 import dao.BoardEntry;
-import proto.Command;
 
 public class UpdateBoardEntry implements Command {
 	private BoardReceiver receiver;

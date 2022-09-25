@@ -12,7 +12,7 @@ import org.json.simple.parser.ParseException;
 
 @Entity
 @Table(name="User")
-public class User implements Serializable, Entry
+public class UserEntry implements Serializable, Entry
 {
 	private static final long serialVersionUID = 6048398966708251829L;
 	
@@ -24,7 +24,7 @@ public class User implements Serializable, Entry
 	private String color;
 	private String game;
 
-	public User() {
+	public UserEntry() {
 		username = "null";
 		password = "null";
 		name = "null";
