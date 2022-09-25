@@ -9,7 +9,7 @@ import org.json.simple.parser.ParseException;
 import dao.GameEntry;
 import jakarta.servlet.http.HttpServletResponse;
 import proto.Invoker;
-import servlets.Utils;
+import servlet.Utils;
 
 public class GameClient
 {

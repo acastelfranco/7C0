@@ -7,7 +7,7 @@ import java.util.List;
 
 import dao.Dao;
 import dao.User;
-import servlets.Init;
+import servlet.Init;
 
 public class UserDao implements Dao<User, String> {
 

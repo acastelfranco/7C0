@@ -1,11 +1,11 @@
-package servlets.user;
+package servlet.user;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import proto.user.UserClient;
-import servlets.Utils;
+import servlet.Utils;
 
 import java.io.IOException;
 
@@ -13,13 +13,18 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-public class ReadUser extends HttpServlet {
+import dao.User;
+
+/**
+ * Servlet implementation class CreateUser
+ */
+public class CreateUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ReadUser() {
+    public CreateUser() {
         super();
     }
 
@@ -35,12 +40,15 @@ public class ReadUser extends HttpServlet {
 		response.getWriter().append("<table>");
 		response.getWriter().append("<tr>");
 		response.getWriter().append("<td>");
-		response.getWriter().append("<mark><b>ReadUser command syntax</b></mark><br><br>");
+		response.getWriter().append("<mark><b>CreateUser command syntax</b></mark><br><br>");
 		response.getWriter().append("</td>");
 		response.getWriter().append("<tr>");
 		response.getWriter().append("<td>");
 		response.getWriter().append("{<br>"
-				+ "&nbsp;&nbsp;&nbsp;&nbsp;\"username\"&nbsp;: \"username of the user we want to get the information\"<br>"
+				+ "&nbsp;&nbsp;&nbsp;&nbsp;\"username\"&nbsp;: \"username of the user we want to create\"<br>"
+				+ "&nbsp;&nbsp;&nbsp;&nbsp;\"password\"&nbsp;: \"password of the user we want to create\"<br>"
+				+ "&nbsp;&nbsp;&nbsp;&nbsp;\"name\"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: \"name of the user we want to create\"<br>"
+				+ "&nbsp;&nbsp;&nbsp;&nbsp;\"surname\"&nbsp;&nbsp;: \"surname of the user we want to create\"<br>"
 				+ "}");
 		response.getWriter().append("</td>");
 		response.getWriter().append("</tr>");
@@ -63,7 +71,9 @@ public class ReadUser extends HttpServlet {
 		try
 		{
 			json = (JSONObject) parser.parse(Utils.getBody(request));
-			UserClient.readUser(response, (String) json.get("username"));
+			User newUser = new User();
+			newUser.fromJSON(json);
+			UserClient.createUser(response, newUser);
 		}
 		
 		catch (ParseException e) {

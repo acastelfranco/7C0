@@ -8,7 +8,7 @@ import java.util.Vector;
 
 import dao.BoardEntry;
 import dao.Dao;
-import servlets.Init;
+import servlet.Init;
 
 public class BoardDao implements Dao<BoardEntry, String> {
 

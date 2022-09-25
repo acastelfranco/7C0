@@ -9,7 +9,7 @@ import java.util.Vector;
 import dao.BoardEntry;
 import dao.Dao;
 import dao.GameEntry;
-import servlets.Init;
+import servlet.Init;
 
 public class GameDao implements Dao<GameEntry, String> {
 	

@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import proto.board.BoardClient;
-import servlets.Utils;
+import servlet.Utils;
 
 /**
  * Servlet implementation class PrepareBoard

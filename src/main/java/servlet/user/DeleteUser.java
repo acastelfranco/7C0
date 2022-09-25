@@ -1,11 +1,11 @@
-package servlets.user;
+package servlet.user;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import proto.user.UserClient;
-import servlets.Utils;
+import servlet.Utils;
 
 import java.io.IOException;
 
@@ -13,18 +13,16 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import dao.User;
-
 /**
- * Servlet implementation class CreateUser
+ * Servlet implementation class DeleteUser
  */
-public class CreateUser extends HttpServlet {
+public class DeleteUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CreateUser() {
+    public DeleteUser() {
         super();
     }
 
@@ -40,22 +38,18 @@ public class CreateUser extends HttpServlet {
 		response.getWriter().append("<table>");
 		response.getWriter().append("<tr>");
 		response.getWriter().append("<td>");
-		response.getWriter().append("<mark><b>CreateUser command syntax</b></mark><br><br>");
+		response.getWriter().append("<mark><b>DeleteUser command syntax</b></mark><br><br>");
 		response.getWriter().append("</td>");
 		response.getWriter().append("<tr>");
 		response.getWriter().append("<td>");
 		response.getWriter().append("{<br>"
-				+ "&nbsp;&nbsp;&nbsp;&nbsp;\"username\"&nbsp;: \"username of the user we want to create\"<br>"
-				+ "&nbsp;&nbsp;&nbsp;&nbsp;\"password\"&nbsp;: \"password of the user we want to create\"<br>"
-				+ "&nbsp;&nbsp;&nbsp;&nbsp;\"name\"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: \"name of the user we want to create\"<br>"
-				+ "&nbsp;&nbsp;&nbsp;&nbsp;\"surname\"&nbsp;&nbsp;: \"surname of the user we want to create\"<br>"
+				+ "&nbsp;&nbsp;&nbsp;&nbsp;\"username\"&nbsp;: \"username of the user we want to delete\"<br>"
 				+ "}");
 		response.getWriter().append("</td>");
 		response.getWriter().append("</tr>");
 		response.getWriter().append("</table>");
 		response.getWriter().append("</p>");
 	}
-
 	/**
 	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
 	 */
@@ -71,9 +65,7 @@ public class CreateUser extends HttpServlet {
 		try
 		{
 			json = (JSONObject) parser.parse(Utils.getBody(request));
-			User newUser = new User();
-			newUser.fromJSON(json);
-			UserClient.createUser(response, newUser);
+			UserClient.deleteUser(response, (String) json.get("username"));
 		}
 		
 		catch (ParseException e) {

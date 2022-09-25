@@ -8,7 +8,7 @@ import org.json.simple.parser.ParseException;
 import dao.User;
 import jakarta.servlet.http.HttpServletResponse;
 import proto.Invoker;
-import servlets.Utils;
+import servlet.Utils;
 
 public class UserClient {
 	

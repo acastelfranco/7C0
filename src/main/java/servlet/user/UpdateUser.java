@@ -1,11 +1,11 @@
-package servlets.user;
+package servlet.user;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import proto.user.UserClient;
-import servlets.Utils;
+import servlet.Utils;
 
 import java.io.IOException;
 
@@ -13,16 +13,15 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-/**
- * Servlet implementation class DeleteUser
- */
-public class DeleteUser extends HttpServlet {
+import dao.User;
+
+public class UpdateUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DeleteUser() {
+    public UpdateUser() {
         super();
     }
 
@@ -38,18 +37,22 @@ public class DeleteUser extends HttpServlet {
 		response.getWriter().append("<table>");
 		response.getWriter().append("<tr>");
 		response.getWriter().append("<td>");
-		response.getWriter().append("<mark><b>DeleteUser command syntax</b></mark><br><br>");
+		response.getWriter().append("<mark><b>UpdateUser command syntax</b></mark><br><br>");
 		response.getWriter().append("</td>");
 		response.getWriter().append("<tr>");
 		response.getWriter().append("<td>");
 		response.getWriter().append("{<br>"
-				+ "&nbsp;&nbsp;&nbsp;&nbsp;\"username\"&nbsp;: \"username of the user we want to delete\"<br>"
+				+ "&nbsp;&nbsp;&nbsp;&nbsp;\"username\"&nbsp;: \"username of the user we want to update\"<br>"
+				+ "&nbsp;&nbsp;&nbsp;&nbsp;\"password\"&nbsp;: \"password of the user we want to update\"<br>"
+				+ "&nbsp;&nbsp;&nbsp;&nbsp;\"name\"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: \"name of the user we want to update\"<br>"
+				+ "&nbsp;&nbsp;&nbsp;&nbsp;\"surname\"&nbsp;&nbsp;: \"surname of the user we want to update\"<br>"
 				+ "}");
 		response.getWriter().append("</td>");
 		response.getWriter().append("</tr>");
 		response.getWriter().append("</table>");
 		response.getWriter().append("</p>");
 	}
+
 	/**
 	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
 	 */
@@ -65,7 +68,9 @@ public class DeleteUser extends HttpServlet {
 		try
 		{
 			json = (JSONObject) parser.parse(Utils.getBody(request));
-			UserClient.deleteUser(response, (String) json.get("username"));
+			User existingUser = new User();
+			existingUser.fromJSON(json);
+			UserClient.updateUser(response, existingUser);
 		}
 		
 		catch (ParseException e) {

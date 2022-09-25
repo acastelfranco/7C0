@@ -15,7 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import proto.Invoker;
 import proto.game.GameClient;
 import proto.game.ReadGame;
-import servlets.Utils;
+import servlet.Utils;
 
 public class BoardClient
 {
